@@ -6,6 +6,7 @@ import com.ishaan.featureflagservice.data.model.Experiment;
 import com.ishaan.featureflagservice.data.model.Feature;
 import com.ishaan.featureflagservice.data.repository.ExperimentRepository;
 import com.ishaan.featureflagservice.data.repository.FeatureRepository;
+import com.ishaan.featureflagservice.domain.exception.ExperimentNotFoundException;
 import com.ishaan.featureflagservice.domain.exception.FeatureNotFoundException;
 import com.ishaan.featureflagservice.domain.exception.InvalidExperimentConfigurationException;
 
@@ -34,13 +35,15 @@ public class OnDemandFeatureValueUseCase {
             throw new FeatureNotFoundException();
         }
         try {
-            Experiment experiment = experimentRepository.getExperiment(name);
-            if(experiment == null) {
-                return feature.value(); // assuming the feature value is the same for all users for the MVP.
+            Experiment experiment = experimentRepository.getExperimentByFeatureName(name);
+            if (experiment == null) {
+                return feature.value();
             }
             int hashedBucket = getExperimentHashBucketUseCase.getObject().invoke(experiment.name(), userId);
             return getExperimentValueUseCase.getObject().invoke(experiment, hashedBucket);
-            
+
+        } catch(ExperimentNotFoundException exception) {
+            return feature.value(); // assuming the feature value is the same for all users for the MVP.
         } catch(InvalidExperimentConfigurationException exception) {
             // add tracking
             return feature.value();
