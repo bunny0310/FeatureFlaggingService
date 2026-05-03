@@ -8,9 +8,13 @@ import org.springframework.context.annotation.Scope;
 import com.ishaan.featureflagservice.data.repository.ExperimentRepository;
 import com.ishaan.featureflagservice.data.repository.FeatureRepository;
 import com.ishaan.featureflagservice.data.repository.UserRepository;
+import com.ishaan.featureflagservice.domain.usecase.DeleteExperimentUseCase;
+import com.ishaan.featureflagservice.domain.usecase.GetExperimentByFeatureNameUseCase;
 import com.ishaan.featureflagservice.domain.usecase.GetExperimentHashBucketUseCase;
 import com.ishaan.featureflagservice.domain.usecase.GetExperimentValueUseCase;
+import com.ishaan.featureflagservice.domain.usecase.NewExperimentUseCase;
 import com.ishaan.featureflagservice.domain.usecase.OnDemandFeatureValueUseCase;
+import com.ishaan.featureflagservice.domain.usecase.UpdateExperimentUseCase;
 
 @Configuration
 public class AppConfig {
@@ -57,6 +61,30 @@ public class AppConfig {
             getExperimentHashBucketUseCase, 
             getExperimentValueUseCase
         );
+    }
+
+    @Bean
+    @Scope("prototype")
+    public NewExperimentUseCase newExperimentUseCase(ExperimentRepository experimentRepository) {
+        return new NewExperimentUseCase(experimentRepository);
+    }
+
+    @Bean
+    @Scope("prototype")
+    public GetExperimentByFeatureNameUseCase getExperimentsByFeatureIdUseCase(ExperimentRepository experimentRepository) {
+        return new GetExperimentByFeatureNameUseCase(experimentRepository);
+    }
+
+    @Bean
+    @Scope("prototype")
+    public DeleteExperimentUseCase deleteExperimentUseCase(ExperimentRepository experimentRepository) {
+        return new DeleteExperimentUseCase(experimentRepository);
+    }
+
+    @Bean
+    @Scope("prototype")
+    public UpdateExperimentUseCase updateExperimentUseCase(ExperimentRepository experimentRepository) {
+        return new UpdateExperimentUseCase(experimentRepository);
     }
     
 }

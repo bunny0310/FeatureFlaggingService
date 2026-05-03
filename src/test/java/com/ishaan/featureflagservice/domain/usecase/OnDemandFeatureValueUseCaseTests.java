@@ -64,10 +64,10 @@ class OnDemandFeatureValueUseCaseTests {
 
     @Test
     @DisplayName("Should return feature value when no experiment exists")
-    void testReturnFeatureValueWhenNoExperiment() throws FeatureNotFoundException {
+    void testReturnFeatureValueWhenNoExperiment() throws Exception {
         Feature feature = new Feature("dark-mode", true);
         when(featureRepository.getFeature("dark-mode")).thenReturn(feature);
-        when(experimentRepository.getExperiment("dark-mode")).thenReturn(null);
+        when(experimentRepository.getExperimentByFeatureName("dark-mode")).thenReturn(null);
 
         Boolean result = useCase.invoke("dark-mode", "user-1");
 
@@ -76,10 +76,10 @@ class OnDemandFeatureValueUseCaseTests {
 
     @Test
     @DisplayName("Should return false feature value when no experiment exists")
-    void testReturnFalseFeatureValueWhenNoExperiment() throws FeatureNotFoundException {
+    void testReturnFalseFeatureValueWhenNoExperiment() throws Exception {
         Feature feature = new Feature("beta-ui", false);
         when(featureRepository.getFeature("beta-ui")).thenReturn(feature);
-        when(experimentRepository.getExperiment("beta-ui")).thenReturn(null);
+        when(experimentRepository.getExperimentByFeatureName("beta-ui")).thenReturn(null);
 
         Boolean result = useCase.invoke("beta-ui", "user-1");
 
@@ -88,12 +88,12 @@ class OnDemandFeatureValueUseCaseTests {
 
     @Test
     @DisplayName("Should use experiment value when experiment exists")
-    void testReturnExperimentValueWhenExperimentExists() throws FeatureNotFoundException, InvalidExperimentConfigurationException {
+    void testReturnExperimentValueWhenExperimentExists() throws Exception {
         Feature feature = new Feature("dark-mode", true);
         Experiment experiment = new Experiment("exp-1", "dark-mode", 20.0, 50.0, 30.0, true);
 
         when(featureRepository.getFeature("dark-mode")).thenReturn(feature);
-        when(experimentRepository.getExperiment("dark-mode")).thenReturn(experiment);
+        when(experimentRepository.getExperimentByFeatureName("dark-mode")).thenReturn(experiment);
         when(getExperimentHashBucketUseCase.invoke("exp-1", "user-1")).thenReturn(2500);
         when(getExperimentValueUseCase.invoke(experiment, 2500)).thenReturn(true);
 
@@ -106,12 +106,12 @@ class OnDemandFeatureValueUseCaseTests {
 
     @Test
     @DisplayName("Should calculate hash bucket with experiment name and user ID")
-    void testCalculateHashBucketWithExperimentAndUser() throws FeatureNotFoundException, InvalidExperimentConfigurationException {
+    void testCalculateHashBucketWithExperimentAndUser() throws Exception {
         Feature feature = new Feature("dark-mode", true);
         Experiment experiment = new Experiment("exp-1", "dark-mode", 20.0, 50.0, 30.0, true);
 
         when(featureRepository.getFeature("dark-mode")).thenReturn(feature);
-        when(experimentRepository.getExperiment("dark-mode")).thenReturn(experiment);
+        when(experimentRepository.getExperimentByFeatureName("dark-mode")).thenReturn(experiment);
         when(getExperimentHashBucketUseCase.invoke("exp-1", "user-1")).thenReturn(5000);
         when(getExperimentValueUseCase.invoke(experiment, 5000)).thenReturn(false);
 
@@ -122,12 +122,12 @@ class OnDemandFeatureValueUseCaseTests {
 
     @Test
     @DisplayName("Should fall back to feature value on InvalidExperimentConfigurationException")
-    void testFallbackToFeatureValueOnInvalidConfiguration() throws FeatureNotFoundException, InvalidExperimentConfigurationException {
+    void testFallbackToFeatureValueOnInvalidConfiguration() throws Exception {
         Feature feature = new Feature("dark-mode", false);
         Experiment experiment = new Experiment("exp-1", "dark-mode", 10.0, 50.0, 30.0, true);
 
         when(featureRepository.getFeature("dark-mode")).thenReturn(feature);
-        when(experimentRepository.getExperiment("dark-mode")).thenReturn(experiment);
+        when(experimentRepository.getExperimentByFeatureName("dark-mode")).thenReturn(experiment);
         when(getExperimentHashBucketUseCase.invoke("exp-1", "user-1")).thenReturn(2500);
         when(getExperimentValueUseCase.invoke(experiment, 2500))
             .thenThrow(new InvalidExperimentConfigurationException());
@@ -139,10 +139,10 @@ class OnDemandFeatureValueUseCaseTests {
 
     @Test
     @DisplayName("Should fetch feature from repository")
-    void testFetchFeatureFromRepository() throws FeatureNotFoundException {
+    void testFetchFeatureFromRepository() throws Exception {
         Feature feature = new Feature("dark-mode", true);
         when(featureRepository.getFeature("dark-mode")).thenReturn(feature);
-        when(experimentRepository.getExperiment("dark-mode")).thenReturn(null);
+        when(experimentRepository.getExperimentByFeatureName("dark-mode")).thenReturn(null);
 
         useCase.invoke("dark-mode", "user-1");
 
@@ -151,28 +151,28 @@ class OnDemandFeatureValueUseCaseTests {
 
     @Test
     @DisplayName("Should fetch experiment from repository")
-    void testFetchExperimentFromRepository() throws FeatureNotFoundException, InvalidExperimentConfigurationException {
+    void testFetchExperimentFromRepository() throws Exception {
         Feature feature = new Feature("dark-mode", true);
         Experiment experiment = new Experiment("exp-1", "dark-mode", 20.0, 50.0, 30.0, true);
 
         when(featureRepository.getFeature("dark-mode")).thenReturn(feature);
-        when(experimentRepository.getExperiment("dark-mode")).thenReturn(experiment);
+        when(experimentRepository.getExperimentByFeatureName("dark-mode")).thenReturn(experiment);
         when(getExperimentHashBucketUseCase.invoke("exp-1", "user-1")).thenReturn(2500);
         when(getExperimentValueUseCase.invoke(experiment, 2500)).thenReturn(true);
 
         useCase.invoke("dark-mode", "user-1");
 
-        verify(experimentRepository).getExperiment("dark-mode");
+        verify(experimentRepository).getExperimentByFeatureName("dark-mode");
     }
 
     @Test
     @DisplayName("Should handle different user IDs consistently")
-    void testHandleDifferentUserIds() throws FeatureNotFoundException, InvalidExperimentConfigurationException {
+    void testHandleDifferentUserIds() throws Exception {
         Feature feature = new Feature("dark-mode", true);
         Experiment experiment = new Experiment("exp-1", "dark-mode", 20.0, 50.0, 30.0, true);
 
         when(featureRepository.getFeature("dark-mode")).thenReturn(feature);
-        when(experimentRepository.getExperiment("dark-mode")).thenReturn(experiment);
+        when(experimentRepository.getExperimentByFeatureName("dark-mode")).thenReturn(experiment);
         when(getExperimentHashBucketUseCase.invoke("exp-1", "user-1")).thenReturn(2500);
         when(getExperimentHashBucketUseCase.invoke("exp-1", "user-2")).thenReturn(3000);
         when(getExperimentValueUseCase.invoke(experiment, 2500)).thenReturn(true);
@@ -187,12 +187,12 @@ class OnDemandFeatureValueUseCaseTests {
 
     @Test
     @DisplayName("Should pass correct hash bucket to getExperimentValue")
-    void testPassCorrectHashBucketToExperimentValue() throws FeatureNotFoundException, InvalidExperimentConfigurationException {
+    void testPassCorrectHashBucketToExperimentValue() throws Exception {
         Feature feature = new Feature("dark-mode", true);
         Experiment experiment = new Experiment("exp-1", "dark-mode", 20.0, 50.0, 30.0, true);
 
         when(featureRepository.getFeature("dark-mode")).thenReturn(feature);
-        when(experimentRepository.getExperiment("dark-mode")).thenReturn(experiment);
+        when(experimentRepository.getExperimentByFeatureName("dark-mode")).thenReturn(experiment);
         when(getExperimentHashBucketUseCase.invoke("exp-1", "user-1")).thenReturn(7500);
         when(getExperimentValueUseCase.invoke(experiment, 7500)).thenReturn(false);
 
@@ -203,12 +203,12 @@ class OnDemandFeatureValueUseCaseTests {
 
     @Test
     @DisplayName("Should use experiment name from experiment object")
-    void testUseExperimentNameFromExperimentObject() throws FeatureNotFoundException, InvalidExperimentConfigurationException {
+    void testUseExperimentNameFromExperimentObject() throws Exception {
         Feature feature = new Feature("dark-mode", true);
         Experiment experiment = new Experiment("my-experiment", "dark-mode", 20.0, 50.0, 30.0, true);
 
         when(featureRepository.getFeature("dark-mode")).thenReturn(feature);
-        when(experimentRepository.getExperiment("dark-mode")).thenReturn(experiment);
+        when(experimentRepository.getExperimentByFeatureName("dark-mode")).thenReturn(experiment);
         when(getExperimentHashBucketUseCase.invoke("my-experiment", "user-1")).thenReturn(2500);
         when(getExperimentValueUseCase.invoke(experiment, 2500)).thenReturn(true);
 
@@ -219,12 +219,12 @@ class OnDemandFeatureValueUseCaseTests {
 
     @Test
     @DisplayName("Should return experiment value when available")
-    void testReturnExperimentValue() throws FeatureNotFoundException, InvalidExperimentConfigurationException {
+    void testReturnExperimentValue() throws Exception {
         Feature feature = new Feature("dark-mode", true);
         Experiment experiment = new Experiment("exp-1", "dark-mode", 20.0, 50.0, 30.0, true);
 
         when(featureRepository.getFeature("dark-mode")).thenReturn(feature);
-        when(experimentRepository.getExperiment("dark-mode")).thenReturn(experiment);
+        when(experimentRepository.getExperimentByFeatureName("dark-mode")).thenReturn(experiment);
         when(getExperimentHashBucketUseCase.invoke("exp-1", "user-1")).thenReturn(6000);
         when(getExperimentValueUseCase.invoke(experiment, 6000)).thenReturn(false);
 
@@ -235,14 +235,14 @@ class OnDemandFeatureValueUseCaseTests {
 
     @Test
     @DisplayName("Should work with multiple features")
-    void testWorkWithMultipleFeatures() throws FeatureNotFoundException {
+    void testWorkWithMultipleFeatures() throws Exception {
         Feature feature1 = new Feature("feature-1", true);
         Feature feature2 = new Feature("feature-2", false);
 
         when(featureRepository.getFeature("feature-1")).thenReturn(feature1);
         when(featureRepository.getFeature("feature-2")).thenReturn(feature2);
-        when(experimentRepository.getExperiment("feature-1")).thenReturn(null);
-        when(experimentRepository.getExperiment("feature-2")).thenReturn(null);
+        when(experimentRepository.getExperimentByFeatureName("feature-1")).thenReturn(null);
+        when(experimentRepository.getExperimentByFeatureName("feature-2")).thenReturn(null);
 
         Boolean result1 = useCase.invoke("feature-1", "user-1");
         Boolean result2 = useCase.invoke("feature-2", "user-1");
@@ -253,12 +253,12 @@ class OnDemandFeatureValueUseCaseTests {
 
     @Test
     @DisplayName("Should handle feature name case-sensitively")
-    void testFeatureNameCaseSensitive() throws FeatureNotFoundException {
+    void testFeatureNameCaseSensitive() throws Exception {
         Feature feature = new Feature("dark-mode", true);
 
         when(featureRepository.getFeature("dark-mode")).thenReturn(feature);
         when(featureRepository.getFeature("Dark-Mode")).thenReturn(null);
-        when(experimentRepository.getExperiment("dark-mode")).thenReturn(null);
+        when(experimentRepository.getExperimentByFeatureName("dark-mode")).thenReturn(null);
 
         Boolean result = useCase.invoke("dark-mode", "user-1");
         assertTrue(result);
@@ -268,12 +268,12 @@ class OnDemandFeatureValueUseCaseTests {
 
     @Test
     @DisplayName("Should provide correct order of operations")
-    void testCorrectOrderOfOperations() throws FeatureNotFoundException, InvalidExperimentConfigurationException {
+    void testCorrectOrderOfOperations() throws Exception {
         Feature feature = new Feature("dark-mode", true);
         Experiment experiment = new Experiment("exp-1", "dark-mode", 20.0, 50.0, 30.0, true);
 
         when(featureRepository.getFeature("dark-mode")).thenReturn(feature);
-        when(experimentRepository.getExperiment("dark-mode")).thenReturn(experiment);
+        when(experimentRepository.getExperimentByFeatureName("dark-mode")).thenReturn(experiment);
         when(getExperimentHashBucketUseCase.invoke("exp-1", "user-1")).thenReturn(2500);
         when(getExperimentValueUseCase.invoke(experiment, 2500)).thenReturn(false);
 
@@ -306,11 +306,11 @@ class OnDemandFeatureValueUseCaseTests {
 
     @Test
     @DisplayName("Should support feature with special characters")
-    void testFeatureWithSpecialCharacters() throws FeatureNotFoundException {
+    void testFeatureWithSpecialCharacters() throws Exception {
         Feature feature = new Feature("feature-with_special.chars", true);
 
         when(featureRepository.getFeature("feature-with_special.chars")).thenReturn(feature);
-        when(experimentRepository.getExperiment("feature-with_special.chars")).thenReturn(null);
+        when(experimentRepository.getExperimentByFeatureName("feature-with_special.chars")).thenReturn(null);
 
         Boolean result = useCase.invoke("feature-with_special.chars", "user-1");
 
@@ -319,12 +319,12 @@ class OnDemandFeatureValueUseCaseTests {
 
     @Test
     @DisplayName("Should support numeric user IDs")
-    void testNumericUserIds() throws FeatureNotFoundException, InvalidExperimentConfigurationException {
+    void testNumericUserIds() throws Exception {
         Feature feature = new Feature("dark-mode", true);
         Experiment experiment = new Experiment("exp-1", "dark-mode", 20.0, 50.0, 30.0, true);
 
         when(featureRepository.getFeature("dark-mode")).thenReturn(feature);
-        when(experimentRepository.getExperiment("dark-mode")).thenReturn(experiment);
+        when(experimentRepository.getExperimentByFeatureName("dark-mode")).thenReturn(experiment);
         when(getExperimentHashBucketUseCase.invoke("exp-1", "123")).thenReturn(2500);
         when(getExperimentValueUseCase.invoke(experiment, 2500)).thenReturn(true);
 
@@ -336,12 +336,12 @@ class OnDemandFeatureValueUseCaseTests {
 
     @Test
     @DisplayName("Should verify InvalidExperimentConfigurationException handling")
-    void testInvalidExperimentConfigurationExceptionHandling() throws FeatureNotFoundException, InvalidExperimentConfigurationException {
+    void testInvalidExperimentConfigurationExceptionHandling() throws Exception {
         Feature feature = new Feature("dark-mode", true);
         Experiment experiment = new Experiment("exp-1", "dark-mode", 20.0, 50.0, 30.0, true);
 
         when(featureRepository.getFeature("dark-mode")).thenReturn(feature);
-        when(experimentRepository.getExperiment("dark-mode")).thenReturn(experiment);
+        when(experimentRepository.getExperimentByFeatureName("dark-mode")).thenReturn(experiment);
         when(getExperimentHashBucketUseCase.invoke("exp-1", "user-1")).thenReturn(2500);
         when(getExperimentValueUseCase.invoke(experiment, 2500))
             .thenThrow(new InvalidExperimentConfigurationException());
