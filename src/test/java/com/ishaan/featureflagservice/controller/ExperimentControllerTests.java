@@ -19,10 +19,10 @@ import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import com.ishaan.featureflagservice.data.model.Experiment;
 import com.ishaan.featureflagservice.domain.exception.ExperimentAlreadyExistsException;
 import com.ishaan.featureflagservice.domain.exception.ExperimentNotFoundException;
 import com.ishaan.featureflagservice.domain.exception.FeatureAlreadyLinkedToAnExperimentException;
+import com.ishaan.featureflagservice.domain.model.Experiment;
 import com.ishaan.featureflagservice.domain.usecase.DeleteExperimentUseCase;
 import com.ishaan.featureflagservice.domain.usecase.GetExperimentByFeatureNameUseCase;
 import com.ishaan.featureflagservice.domain.usecase.NewExperimentUseCase;

@@ -5,10 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.ishaan.featureflagservice.data.model.Experiment;
 import com.ishaan.featureflagservice.domain.exception.ExperimentAlreadyExistsException;
 import com.ishaan.featureflagservice.domain.exception.ExperimentNotFoundException;
 import com.ishaan.featureflagservice.domain.exception.FeatureAlreadyLinkedToAnExperimentException;
+import com.ishaan.featureflagservice.domain.model.Experiment;
 
 public class ExperimentRepository {
     

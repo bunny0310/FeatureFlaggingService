@@ -1,4 +1,4 @@
-package com.ishaan.featureflagservice.data.model;
+package com.ishaan.featureflagservice.domain.model;
 
 public record Experiment(
     String name, 

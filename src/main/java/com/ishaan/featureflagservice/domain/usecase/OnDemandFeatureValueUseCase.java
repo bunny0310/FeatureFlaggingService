@@ -2,13 +2,13 @@ package com.ishaan.featureflagservice.domain.usecase;
 
 import org.springframework.beans.factory.ObjectProvider;
 
-import com.ishaan.featureflagservice.data.model.Experiment;
-import com.ishaan.featureflagservice.data.model.Feature;
 import com.ishaan.featureflagservice.data.repository.ExperimentRepository;
 import com.ishaan.featureflagservice.data.repository.FeatureRepository;
 import com.ishaan.featureflagservice.domain.exception.ExperimentNotFoundException;
 import com.ishaan.featureflagservice.domain.exception.FeatureNotFoundException;
 import com.ishaan.featureflagservice.domain.exception.InvalidExperimentConfigurationException;
+import com.ishaan.featureflagservice.domain.model.Experiment;
+import com.ishaan.featureflagservice.domain.model.Feature;
 
 public class OnDemandFeatureValueUseCase {
     
