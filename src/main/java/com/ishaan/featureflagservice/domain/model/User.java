@@ -1,3 +1,3 @@
-package com.ishaan.featureflagservice.data.model;
+package com.ishaan.featureflagservice.domain.model;
 
 public record User(String userId, String username){}

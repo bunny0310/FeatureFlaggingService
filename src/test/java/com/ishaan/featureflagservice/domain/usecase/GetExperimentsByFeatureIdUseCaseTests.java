@@ -1,8 +1,9 @@
 package com.ishaan.featureflagservice.domain.usecase;
 
-import com.ishaan.featureflagservice.data.model.Experiment;
 import com.ishaan.featureflagservice.data.repository.ExperimentRepository;
 import com.ishaan.featureflagservice.domain.exception.ExperimentNotFoundException;
+import com.ishaan.featureflagservice.domain.model.Experiment;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

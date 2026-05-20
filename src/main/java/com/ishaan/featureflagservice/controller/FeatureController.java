@@ -9,9 +9,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ishaan.featureflagservice.data.model.Feature;
 import com.ishaan.featureflagservice.data.repository.FeatureRepository;
 import com.ishaan.featureflagservice.domain.exception.FeatureNotFoundException;
+import com.ishaan.featureflagservice.domain.model.Feature;
 import com.ishaan.featureflagservice.domain.usecase.GetAllFeaturesUseCase;
 import com.ishaan.featureflagservice.domain.usecase.NewFeatureUseCase;
 import com.ishaan.featureflagservice.domain.usecase.OnDemandFeatureValueUseCase;

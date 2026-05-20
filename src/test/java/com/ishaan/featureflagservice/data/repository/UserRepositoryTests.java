@@ -1,9 +1,10 @@
 package com.ishaan.featureflagservice.data.repository;
 
-import com.ishaan.featureflagservice.data.model.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import com.ishaan.featureflagservice.domain.model.User;
 
 import static org.junit.jupiter.api.Assertions.*;
 

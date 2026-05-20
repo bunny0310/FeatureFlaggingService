@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import com.ishaan.featureflagservice.data.model.Feature;
+
+import com.ishaan.featureflagservice.domain.model.Feature;
 
 public class FeatureRepository {
     

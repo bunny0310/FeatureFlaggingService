@@ -1,7 +1,7 @@
 package com.ishaan.featureflagservice.domain.usecase;
 
-import com.ishaan.featureflagservice.data.model.Feature;
-import com.ishaan.featureflagservice.data.repository.FeatureRepository;;
+import com.ishaan.featureflagservice.data.repository.FeatureRepository;
+import com.ishaan.featureflagservice.domain.model.Feature;;
 
 public class NewFeatureUseCase {
 

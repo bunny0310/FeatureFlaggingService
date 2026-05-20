@@ -15,10 +15,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ishaan.featureflagservice.data.model.Experiment;
 import com.ishaan.featureflagservice.domain.exception.ExperimentAlreadyExistsException;
 import com.ishaan.featureflagservice.domain.exception.ExperimentNotFoundException;
 import com.ishaan.featureflagservice.domain.exception.FeatureAlreadyLinkedToAnExperimentException;
+import com.ishaan.featureflagservice.domain.model.Experiment;
 import com.ishaan.featureflagservice.domain.usecase.DeleteExperimentUseCase;
 import com.ishaan.featureflagservice.domain.usecase.GetExperimentByFeatureNameUseCase;
 import com.ishaan.featureflagservice.domain.usecase.NewExperimentUseCase;

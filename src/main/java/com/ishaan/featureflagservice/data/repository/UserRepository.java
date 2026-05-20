@@ -3,7 +3,7 @@ package com.ishaan.featureflagservice.data.repository;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.ishaan.featureflagservice.data.model.User;
+import com.ishaan.featureflagservice.domain.model.User;
 
 public class UserRepository {
     

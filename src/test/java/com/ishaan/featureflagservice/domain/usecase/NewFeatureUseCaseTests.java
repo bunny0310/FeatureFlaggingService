@@ -1,7 +1,8 @@
 package com.ishaan.featureflagservice.domain.usecase;
 
-import com.ishaan.featureflagservice.data.model.Feature;
 import com.ishaan.featureflagservice.data.repository.FeatureRepository;
+import com.ishaan.featureflagservice.domain.model.Feature;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
